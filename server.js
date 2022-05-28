@@ -6,6 +6,8 @@ const { readdirSync } = require("fs");
 require("dotenv").config();
 const cors = require("cors")
 const connectDB = require("./database");
+const path = require("path");
+//const { mergeTypes } = require("@graphql/schemas"); // deprecated graphql > 13
 //const bodyParser = require("body-parser"); // deprecated > 12
 
 // express server
@@ -22,12 +24,17 @@ app.use(express.json({ limit: "5mb" }));
 readdirSync("./rest").map((r) => app.use("/api", require("./rest/" + r)));
 
 // type-defs
+const typeDefs = mergeTypeDefs(loadFilesSync(path.join(__dirname, "./typeDefs")));
 
 // resolvers
 
 // apollo-server config / sign
+const apolloServer = new ApolloServer({
+    typeDefs,
+});
 
 // vinculation apollo-server with express
+apolloServer.applyMiddleware({ app });
 
 // server listen
 app.listen(process.env.PORT, function() {
