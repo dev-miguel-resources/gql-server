@@ -6,14 +6,14 @@ module.exports = gql`
     title: String!
     description: String!
   }
-  # query generic
+  # query generics
   type Query {
     totalPosts: Int!
     allPosts: [Post!]!
   }
   # input type
   input PostInput {
-    type: String!
+    title: String!
     description: String!
   }
   # mutation
