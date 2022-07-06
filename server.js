@@ -7,38 +7,33 @@ require("dotenv").config();
 const cors = require("cors");
 const connectDB = require("./database");
 const path = require("path");
-//const { mergeTypes } = require("@graphql/schemas"); // deprecated graphql > 13
-//const bodyParser = require("body-parser"); // deprecated > 12
 
-// express server
 const app = express();
 
-//db-connection
 connectDB();
 
-// middlewares express
 app.use(cors());
 app.use(express.json({ limit: "5mb" }));
 
-// middlewares routes express
 readdirSync("./rest").map((r) => app.use("/api", require("./rest/" + r)));
 
-// type-defs
-const typeDefs = mergeTypeDefs(loadFilesSync(path.join(__dirname, "./typeDefs")));
+const typeDefs = mergeTypeDefs(
+  loadFilesSync(path.join(__dirname, "./typeDefs"))
+);
 
 // resolvers
-const resolvers = mergeResolvers(loadFilesSync(path.join(__dirname, "./resolvers")));
+const resolvers = mergeResolvers(
+  loadFilesSync(path.join(__dirname, "./resolvers"))
+);
 
-// apollo-server config / sign
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ req, res }) => ({ req, res }),
 });
 
-// vinculation apollo-server with express
 apolloServer.applyMiddleware({ app });
 
-// server listen
 app.listen(process.env.PORT, function () {
   console.log(`server is ready at http:localhost:${process.env.PORT}`);
   console.log(`graphql server is ready at http://localhost:${process.env.PORT}${apolloServer.graphqlPath}`);
