@@ -25,7 +25,7 @@ exports.authCheckMiddleware = (req, res, next) => {
       .then((_) => {
         next();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => res.json({ error: error.message }));
   } else {
     res.json({ error: "Unauthorized" });
   }
