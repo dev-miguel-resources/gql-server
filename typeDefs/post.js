@@ -7,7 +7,6 @@ module.exports = gql`
     image: Image
     postedBy: User 
   }
-  # input type
   input PostCreateInput {
     content: String!
     image: ImageInput
@@ -16,7 +15,6 @@ module.exports = gql`
     allPosts: [Post!]!
     postsByUser: [Post!]!
   }
-  # mutations
   type Mutation {
     postCreate(input: PostCreateInput!): Post!
   }

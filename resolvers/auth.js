@@ -10,7 +10,7 @@ const me = async (_, args, { req, res }) => {
 const userCreate = async (parent, args, { req }) => {
   const currentUser = await authCheck(req);
   const user = await User.findOne({ email: currentUser.email });
-  return user 
+  user 
     ? user
     : new User({
       email: currentUser.email,
