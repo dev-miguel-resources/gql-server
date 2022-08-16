@@ -1,10 +1,6 @@
 
-const allPosts = () => {
+const postCreate = async (parent, args, { req }) => {
 
-}
-
-module.exports = {
-  Query: {
-    allPosts,
-  },
 };
+
+

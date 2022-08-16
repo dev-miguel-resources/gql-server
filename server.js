@@ -21,7 +21,6 @@ const typeDefs = mergeTypeDefs(
   loadFilesSync(path.join(__dirname, "./typeDefs"))
 );
 
-// resolvers
 const resolvers = mergeResolvers(
   loadFilesSync(path.join(__dirname, "./resolvers"))
 );
