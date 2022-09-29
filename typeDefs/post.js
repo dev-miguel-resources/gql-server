@@ -12,8 +12,10 @@ module.exports = gql`
     image: ImageInput
   } 
   type Query {
-    allPosts: [Post!]!
+    totalPosts: Int!
+    allPosts(page: Int): [Post!]!
     postsByUser: [Post!]!
+    search(query: String): [Post]
   }
   type Mutation {
     postCreate(input: PostCreateInput!): Post!

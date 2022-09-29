@@ -13,7 +13,7 @@ const app = express();
 connectDB();
 
 app.use(cors());
-app.use(express.json({ limit: "5mb" }));
+app.use(express.json({ limit: "5mb"}));
 
 readdirSync("./rest").map((r) => app.use("/api", require("./rest/" + r)));
 

@@ -20,10 +20,18 @@ const postCreate = async (_, args, { req }) => {
   return newPost;
 };
 
+const totalPosts = async () =>
+  await Post.find({}).estimatedDocumentCount().exec();
+
 const allPosts = async (_, args) => {
+  const currentPage = args.page | 1;
+  const perPage = 3;
+
   return await Post.find({})
+    .skip((currentPage - 1) * perPage)
     .populate("postedBy", "username _id")
-    .sort({ createdAt: 1 })
+    .limit(perPage)
+    .sort({ createdAt: -1 })
     .exec();
 };
 
@@ -37,10 +45,19 @@ const postsByUser = async (_, args, { req }) => {
     .sort({ createdAt: -1 });
 };
 
+const search = async (_, { query }) => {
+  return await Post.find({ $text: { $search: query } })
+    .populate("postedBy", "username")
+    .exec();
+};
+
 module.exports = {
   Query: {
     allPosts,
     postsByUser,
+    totalPosts,
+    search,
+    allPosts,
   },
   Mutation: {
     postCreate,
